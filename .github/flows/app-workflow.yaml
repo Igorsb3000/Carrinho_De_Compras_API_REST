@@ -1,15 +1,10 @@
-name: Build TaskFlow Application
+name: Build Carrinho API Application
+     
 on:
-  pull_request:
-    branches: [ main ]
-    paths:
-      - 'src/**'
-      - '.github/workflows/app-workflow.yaml'
   push:
-    branches: [ main ]
-    paths:
-      - 'src/**'
-      - '.github/workflows/app-workflow.yaml'
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,5 +18,3 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn clean package -q -B -T4 -DskipTests -Dspring.profiles.active=prod
-
-
