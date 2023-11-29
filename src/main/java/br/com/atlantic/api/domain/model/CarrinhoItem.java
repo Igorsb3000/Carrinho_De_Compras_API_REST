@@ -34,4 +34,7 @@ public class CarrinhoItem extends BaseModel {
 
     @NotNull(message = "Valor Total não informado.")
     private BigDecimal valorTotal;
+
+    @NotNull(message = "Peso não informado.")
+    private BigDecimal peso;
 }
