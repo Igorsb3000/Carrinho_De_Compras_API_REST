@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -14,16 +16,15 @@ import java.util.Set;
 
 @Entity
 @Table(name = "carrinho")
-@Getter
-@Setter
+@Getter @Setter
+@AllArgsConstructor @NoArgsConstructor
 public class Carrinho extends BaseModel {
-
     @Column
     @NotBlank(message = "O campo 'Nome' não pode ser vazio.")
     private String nome;
 
     @Column
-    @Size(max = 20, message = "O campo 'cpf' é obrigatório.")
+    @NotBlank(message = "O campo 'cpf' não pode ser vazio.")
     private String cpf;
 
     @OneToMany(mappedBy = "carrinho", cascade = CascadeType.ALL, orphanRemoval = true)
