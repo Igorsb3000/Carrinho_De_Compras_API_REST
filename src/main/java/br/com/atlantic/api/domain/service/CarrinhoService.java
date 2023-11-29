@@ -11,7 +11,8 @@ import java.math.BigDecimal;
 @Service
 public class CarrinhoService extends BaseService<Carrinho, CarrinhoRepository> {
 
-    private final BigDecimal ADICIONALFRETE = new BigDecimal(10);
+    private final BigDecimal ADICIONAL_FRETE = new BigDecimal(10);
+    private final BigDecimal DESCONTO_FRETE_PERC = new BigDecimal(0.05);
 
     private void processarCarrinho(Carrinho carrinho){
         carrinho.setQtdItens(0);
@@ -48,12 +49,8 @@ public class CarrinhoService extends BaseService<Carrinho, CarrinhoRepository> {
         é aplicado somente ao valor dos itens, excluindo o valor do frete.
          */
 
-        BigDecimal valorFrete = BigDecimal.ZERO;
-        BigDecimal taxaFreteKg = BigDecimal.ZERO;
-        BigDecimal taxaDesconto = BigDecimal.ZERO;
-
-
         // Valor do Frete
+        BigDecimal taxaFreteKg = BigDecimal.ZERO;
         if (carrinho.getPeso().compareTo(BigDecimal.valueOf(50)) > 0)
             taxaFreteKg = new BigDecimal(7);
         else if (carrinho.getPeso().compareTo(BigDecimal.valueOf(10)) > 0)
@@ -61,16 +58,21 @@ public class CarrinhoService extends BaseService<Carrinho, CarrinhoRepository> {
         else if (carrinho.getPeso().compareTo(BigDecimal.valueOf(2)) > 0)
             taxaFreteKg = new BigDecimal(2);
 
+        BigDecimal valorFrete;
         valorFrete = taxaFreteKg.multiply(carrinho.getPeso());
 
         // Mais de 5 itens no carrinho
         if (carrinho.getQtdItens() > 5)
-            valorFrete = valorFrete.add(ADICIONALFRETE);
+            valorFrete = valorFrete.add(ADICIONAL_FRETE);
 
         // Desconto para mais de 2 itens do mesmo tipo
-
+        if (carrinho.getItens().stream().anyMatch(v -> v.getQuantidade().compareTo(BigDecimal.valueOf(2)) > 0)){
+            BigDecimal descontoFrete = valorFrete.multiply(DESCONTO_FRETE_PERC);
+            valorFrete = valorFrete.subtract(descontoFrete);
+        }
 
         // Desconto pelo valor da venda
+        BigDecimal taxaDesconto = BigDecimal.ZERO;
         if (carrinho.getSubTotal().compareTo(BigDecimal.valueOf(1000)) > 0)
             taxaDesconto = new BigDecimal("0.2");
         else if (carrinho.getSubTotal().compareTo(BigDecimal.valueOf(500)) > 0)
