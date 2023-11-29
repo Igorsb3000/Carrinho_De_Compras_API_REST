@@ -7,6 +7,8 @@ import br.com.atlantic.api.domain.repository.CarrinhoRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class CarrinhoService extends BaseService<Carrinho, CarrinhoRepository> {
@@ -26,7 +28,7 @@ public class CarrinhoService extends BaseService<Carrinho, CarrinhoRepository> {
             throw new RuntimeException("Nenhum Item no carrinho");
 
         // Retotalizar Item
-        carrinho.getItens().forEach(v -> v.setValorTotal(v.getValorUnitario().multiply(v.getQuantidade())));
+        carrinho.getItens().forEach(v -> v.setValorTotal(v.getPreco().multiply(v.getQuantidade())));
 
         // Totalizar
         carrinho.setQtdItens(carrinho.getItens().stream().mapToInt(v -> 1).reduce(0, Integer::sum));
@@ -66,8 +68,8 @@ public class CarrinhoService extends BaseService<Carrinho, CarrinhoRepository> {
             valorFrete = valorFrete.add(ADICIONAL_FRETE);
 
         // Desconto para mais de 2 itens do mesmo tipo
-
-        if (carrinho.getItens().stream().anyMatch(v -> v.getQuantidade().compareTo(BigDecimal.valueOf(2)) > 0)){
+        var tipos = carrinho.getItens().stream().collect(Collectors.groupingBy(CarrinhoItem::getTipo, Collectors.counting()));
+        if (tipos.entrySet().stream().anyMatch(v -> v.getValue() > 1)){
             BigDecimal descontoFrete = valorFrete.multiply(DESCONTO_FRETE_PERC);
             valorFrete = valorFrete.subtract(descontoFrete);
         }
