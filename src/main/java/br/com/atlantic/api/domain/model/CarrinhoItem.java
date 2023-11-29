@@ -10,7 +10,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "carrinho_item")
+@Table(name = "carrinho_itens")
 @Getter
 @Setter
 public class CarrinhoItem extends BaseModel {
