@@ -7,6 +7,7 @@ import br.com.atlantic.api.domain.repository.CarrinhoRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -16,7 +17,7 @@ public class CarrinhoService extends BaseService<Carrinho, CarrinhoRepository> {
     private final BigDecimal ADICIONAL_FRETE = new BigDecimal("10");
     private final BigDecimal DESCONTO_FRETE_PERC = new BigDecimal("0.05");
 
-    private void processarCarrinho(Carrinho carrinho){
+    public void processarCarrinho(Carrinho carrinho){
         carrinho.setQtdItens(0);
         carrinho.setPeso(BigDecimal.ZERO);
         carrinho.setSubTotal(BigDecimal.ZERO);
@@ -83,13 +84,14 @@ public class CarrinhoService extends BaseService<Carrinho, CarrinhoRepository> {
 
         BigDecimal desconto = carrinho.getSubTotal().multiply(taxaDesconto);
 
-        carrinho.setFrete(valorFrete);
-        carrinho.setSubTotal(carrinho.getSubTotal().subtract(desconto));
+        carrinho.setFrete(valorFrete.setScale(2, RoundingMode.HALF_UP));
+        carrinho.setSubTotal(carrinho.getSubTotal().subtract(desconto).setScale(2, RoundingMode.HALF_UP));
 
         // Atualizar Totais finais
-        carrinho.setTotal(carrinho.getSubTotal()
+        carrinho.setTotal(
+                carrinho.getSubTotal()
                 .subtract(carrinho.getDesconto())
-                .add(carrinho.getFrete())
+                .add(carrinho.getFrete()).setScale(2, RoundingMode.HALF_UP)
         );
     }
 
