@@ -95,13 +95,13 @@ public class CarrinhoServiceTest {
 
     @ParameterizedTest
     @CsvSource({
-            "0, 5, 20.00, 20.00",
-            "2, 5, 20.00, 20.00",
-            "3, 5, 20.00, 19.00",
-            "4, 5, 20.00, 19.00",
-            "5, 5, 20.00, 19.00"
+            "0, 5, 20.00",
+            "2, 5, 20.00",
+            "3, 5, 19.00",
+            "4, 5, 19.00",
+            "5, 5, 19.00"
     })
-    public void testProcessarCarrinhoVerificandoFreteComDesconto(BigDecimal quantidadeItens, int quantidadeTotal, BigDecimal valorEsperadoFrete, BigDecimal valorEsperadoDesconto) {
+    public void testProcessarCarrinhoVerificandoFreteComDesconto(BigDecimal quantidadeItens, int quantidadeTotal, BigDecimal valorEsperadoDesconto) {
         // Cenário de teste
         Carrinho carrinho = new Carrinho();
         carrinho.setNome("Nome do Cliente");
@@ -123,7 +123,6 @@ public class CarrinhoServiceTest {
         carrinhoService.processarCarrinho(carrinho);
 
         // Verificações
-        assertEquals(valorEsperadoFrete, carrinho.getFrete().add(carrinho.getDesconto()));
         assertEquals(valorEsperadoDesconto, carrinho.getFrete());
     }
 

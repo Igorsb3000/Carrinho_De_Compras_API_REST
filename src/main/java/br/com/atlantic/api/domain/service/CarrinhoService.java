@@ -69,8 +69,8 @@ public class CarrinhoService extends BaseService<Carrinho, CarrinhoRepository> {
         // Desconto para mais de 2 itens do mesmo tipo
 
         if (carrinho.getItens().stream().anyMatch(v -> v.getQuantidade().compareTo(BigDecimal.valueOf(2)) > 0)){
-            carrinho.setDesconto(valorFrete.multiply(DESCONTO_FRETE_PERC));
-            valorFrete = valorFrete.subtract(carrinho.getDesconto());
+            BigDecimal descontoFrete = valorFrete.multiply(DESCONTO_FRETE_PERC);
+            valorFrete = valorFrete.subtract(descontoFrete);
         }
 
         // Desconto pelo valor da venda
