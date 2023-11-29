@@ -26,10 +26,6 @@ public class Carrinho extends BaseModel {
     @Size(max = 20, message = "O campo 'cpf' é obrigatório.")
     private String cpf;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "cliente_id")
-    private Cliente cliente;
-
     @OneToMany(mappedBy = "carrinho", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<CarrinhoItem> itens;
