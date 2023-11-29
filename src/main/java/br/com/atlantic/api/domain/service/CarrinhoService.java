@@ -11,8 +11,8 @@ import java.math.BigDecimal;
 @Service
 public class CarrinhoService extends BaseService<Carrinho, CarrinhoRepository> {
 
-    private final BigDecimal ADICIONAL_FRETE = new BigDecimal(10);
-    private final BigDecimal DESCONTO_FRETE_PERC = new BigDecimal(0.05);
+    private final BigDecimal ADICIONAL_FRETE = new BigDecimal("10");
+    private final BigDecimal DESCONTO_FRETE_PERC = new BigDecimal("0.05");
 
     private void processarCarrinho(Carrinho carrinho){
         carrinho.setQtdItens(0);
@@ -66,6 +66,7 @@ public class CarrinhoService extends BaseService<Carrinho, CarrinhoRepository> {
             valorFrete = valorFrete.add(ADICIONAL_FRETE);
 
         // Desconto para mais de 2 itens do mesmo tipo
+
         if (carrinho.getItens().stream().anyMatch(v -> v.getQuantidade().compareTo(BigDecimal.valueOf(2)) > 0)){
             BigDecimal descontoFrete = valorFrete.multiply(DESCONTO_FRETE_PERC);
             valorFrete = valorFrete.subtract(descontoFrete);
