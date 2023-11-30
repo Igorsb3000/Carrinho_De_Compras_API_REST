@@ -1,19 +1,26 @@
-package br.com.atlantic.service;
+package br.com.atlantic.api.domain.service;
 
 import br.com.atlantic.api.domain.EnumAtlantic;
 import br.com.atlantic.api.domain.model.Carrinho;
 import br.com.atlantic.api.domain.model.CarrinhoItem;
-import br.com.atlantic.api.domain.service.CarrinhoService;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+@ActiveProfiles("dev")
+@SpringBootTest
+public class CarrinhoServiceTests {
 
-public class CarrinhoServiceTest {
+    @Autowired
+    private CarrinhoService service;
+
     @ParameterizedTest
     @CsvSource({
             "0.00, 0.00",
@@ -48,11 +55,8 @@ public class CarrinhoServiceTest {
 
         carrinho.getItens().add(item);
 
-
-        CarrinhoService carrinhoService = new CarrinhoService();
-
         // Chamando o método a ser testado
-        carrinhoService.processarCarrinho(carrinho);
+        service.processarCarrinho(carrinho);
 
         // Verificações
         assertEquals(valorEsperadoFrete, carrinho.getFrete());
@@ -83,13 +87,11 @@ public class CarrinhoServiceTest {
             carrinho.getItens().add(item);
         }
 
-        CarrinhoService carrinhoService = new CarrinhoService();
-
         if (quantidadeItens == 0) {
-            assertThrows(RuntimeException.class, () -> carrinhoService.processarCarrinho(carrinho));
+            assertThrows(RuntimeException.class, () -> service.processarCarrinho(carrinho));
         } else {
             // Chamando o método a ser testado
-            carrinhoService.processarCarrinho(carrinho);
+            service.processarCarrinho(carrinho);
 
             // Verificações
             assertEquals(valorEsperadoFrete, carrinho.getFrete());
@@ -131,10 +133,8 @@ public class CarrinhoServiceTest {
             carrinho.getItens().add(item);
         }
 
-        CarrinhoService carrinhoService = new CarrinhoService();
-
         // Chamando o método a ser testado
-        carrinhoService.processarCarrinho(carrinho);
+        service.processarCarrinho(carrinho);
 
         // Verificações
         assertEquals(valorEsperadoDesconto, carrinho.getFrete());
@@ -167,10 +167,8 @@ public class CarrinhoServiceTest {
         item.setTipo(EnumAtlantic.TipoItem.CASA);
         carrinho.getItens().add(item);
 
-        CarrinhoService carrinhoService = new CarrinhoService();
-
         // Chamando o método a ser testado
-        carrinhoService.processarCarrinho(carrinho);
+        service.processarCarrinho(carrinho);
 
         // Verificações
         assertEquals(valorEsperadoCompraComDesconto, carrinho.getSubTotal());
