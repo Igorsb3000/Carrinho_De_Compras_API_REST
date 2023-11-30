@@ -1,5 +1,6 @@
 package br.com.atlantic.service;
 
+import br.com.atlantic.api.domain.EnumAtlantic;
 import br.com.atlantic.api.domain.model.Carrinho;
 import br.com.atlantic.api.domain.model.CarrinhoItem;
 import br.com.atlantic.api.domain.service.CarrinhoService;
@@ -40,9 +41,10 @@ public class CarrinhoServiceTest {
         item.setPeso(peso);
 
         // Fixando o valor unitário e a quantidade
-        item.setValorUnitario(BigDecimal.TEN);
+        item.setPreco(BigDecimal.TEN);
         item.setQuantidade(BigDecimal.ONE);
         item.setValorTotal(BigDecimal.TEN);
+        item.setTipo(EnumAtlantic.TipoItem.CASA);
 
         carrinho.getItens().add(item);
 
@@ -62,7 +64,7 @@ public class CarrinhoServiceTest {
             "1, 0.00",
             "4, 0.00",
             "5, 0.00",
-            "6, 10.00"
+            "6, 9.50"
     })
     public void testProcessarCarrinhoVerificandoFreteComAcrescimo(int quantidadeItens, BigDecimal valorEsperadoFrete) {
         // Cenário de teste
@@ -75,8 +77,9 @@ public class CarrinhoServiceTest {
         for (int i = 0; i < quantidadeItens; i++) {
             CarrinhoItem item = new CarrinhoItem();
             item.setPeso(BigDecimal.ZERO);
-            item.setValorUnitario(BigDecimal.ZERO);
+            item.setPreco(BigDecimal.ZERO);
             item.setQuantidade(BigDecimal.ONE);
+            item.setTipo(EnumAtlantic.TipoItem.CASA);
             carrinho.getItens().add(item);
         }
 
@@ -101,7 +104,7 @@ public class CarrinhoServiceTest {
             "4, 5, 19.00",
             "5, 5, 19.00"
     })
-    public void testProcessarCarrinhoVerificandoFreteComDesconto(BigDecimal quantidadeItens, int quantidadeTotal, BigDecimal valorEsperadoDesconto) {
+    public void testProcessarCarrinhoVerificandoFreteComDesconto(int quantidadeItens, int quantidadeTotal, BigDecimal valorEsperadoDesconto) {
         // Cenário de teste
         Carrinho carrinho = new Carrinho();
         carrinho.setNome("Nome do Cliente");
@@ -109,11 +112,22 @@ public class CarrinhoServiceTest {
         carrinho.setItens(new ArrayList<>());
 
         // Adicionando itens ao carrinho com a quantidade fornecida pelo teste parametrizado
-        for (int i = 0; i < quantidadeTotal; i++) {
+        for (int i = 0; i < quantidadeItens; i++) {
             CarrinhoItem item = new CarrinhoItem();
             item.setPeso(new BigDecimal(2));
-            item.setValorUnitario(BigDecimal.ONE);
-            item.setQuantidade(quantidadeItens);
+            item.setPreco(BigDecimal.ONE);
+            item.setTipo(EnumAtlantic.TipoItem.CASA);
+            carrinho.getItens().add(item);
+        }
+        EnumAtlantic.TipoItem[] tiposDisponiveis = EnumAtlantic.TipoItem.values();
+        for (int i = quantidadeItens; i < quantidadeTotal; i++) {
+            CarrinhoItem item = new CarrinhoItem();
+            item.setPeso(new BigDecimal(2));
+            item.setPreco(BigDecimal.ONE);
+
+            EnumAtlantic.TipoItem tipoItem = tiposDisponiveis[i % tiposDisponiveis.length];
+            item.setTipo(tipoItem);
+
             carrinho.getItens().add(item);
         }
 
@@ -148,8 +162,9 @@ public class CarrinhoServiceTest {
         // Adicionando itens ao carrinho
         CarrinhoItem item = new CarrinhoItem();
         item.setPeso(BigDecimal.ZERO);
-        item.setValorUnitario(valorDaCompra);
+        item.setPreco(valorDaCompra);
         item.setQuantidade(BigDecimal.ONE);
+        item.setTipo(EnumAtlantic.TipoItem.CASA);
         carrinho.getItens().add(item);
 
         CarrinhoService carrinhoService = new CarrinhoService();
