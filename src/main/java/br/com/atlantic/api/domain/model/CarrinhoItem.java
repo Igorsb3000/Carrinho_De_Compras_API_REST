@@ -21,7 +21,10 @@ public class CarrinhoItem extends BaseModel {
     @JsonBackReference
     private Carrinho carrinho;
 
-    @NotNull(message = "Produto não informado.")
+    @NotNull(message = "Nome do produto não informado.")
+    private String nome;
+    
+    @NotNull(message = "Descrição não informada.")
     private String descricao;
 
     @Enumerated(EnumType.STRING)
