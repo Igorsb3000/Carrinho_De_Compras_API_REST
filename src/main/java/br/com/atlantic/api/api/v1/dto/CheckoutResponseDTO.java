@@ -7,6 +7,11 @@ import java.math.BigDecimal;
 
 @Getter @Setter
 public class CheckoutResponseDTO {
-
-    private BigDecimal total;
+	
+	private BigDecimal subTotal;
+	
+	private BigDecimal frete;
+    
+	// total = subTotal (valor dos itens) + valor do frete
+	private BigDecimal total;
 }

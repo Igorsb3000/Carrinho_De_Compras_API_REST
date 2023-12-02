@@ -52,16 +52,7 @@ public class CarrinhoService extends BaseService<Carrinho, CarrinhoRepository> {
          */
 
         // Valor do Frete
-        BigDecimal taxaFreteKg = BigDecimal.ZERO;
-        if (carrinho.getPeso().compareTo(BigDecimal.valueOf(50)) > 0)
-            taxaFreteKg = new BigDecimal(7);
-        else if (carrinho.getPeso().compareTo(BigDecimal.valueOf(10)) > 0)
-            taxaFreteKg = new BigDecimal(4);
-        else if (carrinho.getPeso().compareTo(BigDecimal.valueOf(2)) > 0)
-            taxaFreteKg = new BigDecimal(2);
-
-        BigDecimal valorFrete;
-        valorFrete = taxaFreteKg.multiply(carrinho.getPeso());
+        BigDecimal valorFrete = calcularFrete(carrinho);
 
         // Mais de 5 itens no carrinho
         if (carrinho.getQtdItens() > 5)
@@ -94,6 +85,25 @@ public class CarrinhoService extends BaseService<Carrinho, CarrinhoRepository> {
                 .setScale(2, RoundingMode.HALF_UP)
         );
     }
+    
+    
+    BigDecimal calcularFrete(Carrinho carrinho) {
+    	BigDecimal taxaFreteKg;
+    	BigDecimal valorFrete;
+        
+    	if (carrinho.getPeso().compareTo(BigDecimal.valueOf(50)) > 0)
+            taxaFreteKg = new BigDecimal(7);
+        else if (carrinho.getPeso().compareTo(BigDecimal.valueOf(10)) > 0)
+            taxaFreteKg = new BigDecimal(4);
+        else if (carrinho.getPeso().compareTo(BigDecimal.valueOf(2)) > 0)
+            taxaFreteKg = new BigDecimal(2);
+        else 
+        	taxaFreteKg = BigDecimal.ZERO;
+    	
+    	valorFrete = taxaFreteKg.multiply(carrinho.getPeso());
+    	return valorFrete;
+    }
+    
 
     @Override
     public Carrinho insert(Carrinho model) {
