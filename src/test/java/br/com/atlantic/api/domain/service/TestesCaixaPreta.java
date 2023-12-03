@@ -2,6 +2,8 @@ package br.com.atlantic.api.domain.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -17,15 +19,16 @@ import br.com.atlantic.api.domain.model.Carrinho;
 import br.com.atlantic.api.domain.model.CarrinhoItem;
 import br.com.atlantic.api.domain.repository.CarrinhoRepository;
 
+
 @ExtendWith(MockitoExtension.class)
-class TestesCaixaPreta {
+public class TestesCaixaPreta {
 	
 	@InjectMocks
     private CarrinhoService service;
 	
 	@Mock
 	private CarrinhoRepository mockRepository;
-	
+
 
     @ParameterizedTest
     @CsvSource({
@@ -42,7 +45,7 @@ class TestesCaixaPreta {
             "50.10, 350.70",
             "100.00, 700.00"
     })
-    public void testProcessarCarrinhoVerificandoFreteComDeterminadoPeso(BigDecimal peso, BigDecimal valorEsperadoFrete) {
+    public void testeProcessarCarrinhoVerificandoFreteComDeterminadoPeso(BigDecimal peso, BigDecimal valorEsperadoFrete) {
         // Cenário de teste
         Carrinho carrinho = new Carrinho();
         carrinho.setNome("Nome do Cliente");
@@ -60,10 +63,15 @@ class TestesCaixaPreta {
         item.setTipo(EnumAtlantic.TipoItem.CASA);
 
         carrinho.getItens().add(item);
+        
+        // Erro Aqui: diz que o repository esta NULL
+        when(mockRepository.save(any(Carrinho.class))).thenReturn(carrinho);
+        
 
         // Chamando o método a ser testado
-        service.processarCarrinho(carrinho);
+        service.insert(carrinho);
 
+        
         // Verificações
         assertEquals(valorEsperadoFrete, carrinho.getFrete());
     }
@@ -76,7 +84,7 @@ class TestesCaixaPreta {
             "5, 0.00",
             "6, 9.50"
     })
-    public void testProcessarCarrinhoVerificandoFreteComAcrescimo(int quantidadeItens, BigDecimal valorEsperadoFrete) {
+    public void testeProcessarCarrinhoVerificandoFreteComAcrescimo(int quantidadeItens, BigDecimal valorEsperadoFrete) {
         // Cenário de teste
         Carrinho carrinho = new Carrinho();
         carrinho.setNome("Nome do Cliente");
@@ -112,7 +120,7 @@ class TestesCaixaPreta {
             "4, 5, 19.00",
             "5, 5, 19.00"
     })
-    public void testProcessarCarrinhoVerificandoFreteComDesconto(int quantidadeItens, int quantidadeTotal, BigDecimal valorEsperadoDesconto) {
+    public void testeProcessarCarrinhoVerificandoFreteComDesconto(int quantidadeItens, int quantidadeTotal, BigDecimal valorEsperadoDesconto) {
         // Cenário de teste
         Carrinho carrinho = new Carrinho();
         carrinho.setNome("Nome do Cliente");
@@ -158,7 +166,7 @@ class TestesCaixaPreta {
             "1000.01, 800.01",
             "2500.00, 2000.00"
     })
-    public void testProcessarCarrinhoVerificandoCompraComDesconto(BigDecimal valorDaCompra, BigDecimal valorEsperadoCompraComDesconto) {
+    public void testeProcessarCarrinhoVerificandoCompraComDesconto(BigDecimal valorDaCompra, BigDecimal valorEsperadoCompraComDesconto) {
         // Cenário de teste
         Carrinho carrinho = new Carrinho();
         carrinho.setNome("Nome do Cliente");

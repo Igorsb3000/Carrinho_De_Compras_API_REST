@@ -3,6 +3,8 @@ package br.com.atlantic.api.domain.service;
 import br.com.atlantic.api.domain.EnumAtlantic;
 import br.com.atlantic.api.domain.model.Carrinho;
 import br.com.atlantic.api.domain.model.CarrinhoItem;
+import br.com.atlantic.api.domain.service.CarrinhoService;
+
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;

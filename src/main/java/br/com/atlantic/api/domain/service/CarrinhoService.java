@@ -4,6 +4,8 @@ import br.com.atlantic.api.core.base.BaseService;
 import br.com.atlantic.api.domain.model.Carrinho;
 import br.com.atlantic.api.domain.model.CarrinhoItem;
 import br.com.atlantic.api.domain.repository.CarrinhoRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -12,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class CarrinhoService extends BaseService<Carrinho, CarrinhoRepository> {
-
+	
     private final BigDecimal ADICIONAL_FRETE = new BigDecimal("10");
     private final BigDecimal DESCONTO_FRETE_PERC = new BigDecimal("0.05");
 
@@ -59,20 +61,10 @@ public class CarrinhoService extends BaseService<Carrinho, CarrinhoRepository> {
             valorFrete = valorFrete.add(ADICIONAL_FRETE);
 
         // Desconto para mais de 2 itens do mesmo tipo
-        var tipos = carrinho.getItens().stream().collect(Collectors.groupingBy(CarrinhoItem::getTipo, Collectors.counting()));
-        if (tipos.entrySet().stream().anyMatch(v -> v.getValue() > 2)){
-            BigDecimal descontoFrete = valorFrete.multiply(DESCONTO_FRETE_PERC);
-            valorFrete = valorFrete.subtract(descontoFrete);
-        }
+        valorFrete = calcularDescontoFrete(carrinho, valorFrete);
 
         // Desconto pelo valor da venda
-        BigDecimal taxaDesconto = BigDecimal.ZERO;
-        if (carrinho.getSubTotal().compareTo(BigDecimal.valueOf(1000)) > 0)
-            taxaDesconto = new BigDecimal("0.2");
-        else if (carrinho.getSubTotal().compareTo(BigDecimal.valueOf(500)) > 0)
-            taxaDesconto = new BigDecimal("0.1");
-
-        BigDecimal desconto = carrinho.getSubTotal().multiply(taxaDesconto);
+        BigDecimal desconto = calcularDescontoCompra(carrinho);
 
         carrinho.setFrete(valorFrete.setScale(2, RoundingMode.HALF_UP));
         carrinho.setSubTotal(carrinho.getSubTotal().subtract(desconto).setScale(2, RoundingMode.HALF_UP));
@@ -87,7 +79,7 @@ public class CarrinhoService extends BaseService<Carrinho, CarrinhoRepository> {
     }
     
     
-    BigDecimal calcularFrete(Carrinho carrinho) {
+    public BigDecimal calcularFrete(Carrinho carrinho) {
     	BigDecimal taxaFreteKg;
     	BigDecimal valorFrete;
         
@@ -104,6 +96,30 @@ public class CarrinhoService extends BaseService<Carrinho, CarrinhoRepository> {
     	return valorFrete;
     }
     
+    public BigDecimal calcularDescontoFrete(Carrinho carrinho, BigDecimal antigoValorFrete) {
+    	BigDecimal novoValorFrete = null;
+    	var tipos = carrinho.getItens().stream().collect(Collectors.groupingBy(CarrinhoItem::getTipo, Collectors.counting()));
+        
+		if (tipos.entrySet().stream().anyMatch(v -> v.getValue() > 2)){
+            BigDecimal descontoFrete = antigoValorFrete.multiply(DESCONTO_FRETE_PERC);
+            novoValorFrete = antigoValorFrete.subtract(descontoFrete);
+        } else {
+        	novoValorFrete = antigoValorFrete;
+        }
+		
+        return novoValorFrete;
+    }
+    
+    public BigDecimal calcularDescontoCompra(Carrinho carrinho) {
+    	BigDecimal taxaDesconto = BigDecimal.ZERO;
+    	
+        if (carrinho.getSubTotal().compareTo(BigDecimal.valueOf(1000)) > 0)
+            taxaDesconto = new BigDecimal("0.2");
+        else if (carrinho.getSubTotal().compareTo(BigDecimal.valueOf(500)) > 0)
+            taxaDesconto = new BigDecimal("0.1");
+
+        return carrinho.getSubTotal().multiply(taxaDesconto);
+    }
 
     @Override
     public Carrinho insert(Carrinho model) {
