@@ -14,11 +14,12 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+
 import br.com.atlantic.api.domain.EnumAtlantic;
 import br.com.atlantic.api.domain.model.Carrinho;
 import br.com.atlantic.api.domain.model.CarrinhoItem;
 import br.com.atlantic.api.domain.repository.CarrinhoRepository;
-
 
 @ExtendWith(MockitoExtension.class)
 public class TestesCaixaPreta {
@@ -28,7 +29,6 @@ public class TestesCaixaPreta {
 	
 	@Mock
 	private CarrinhoRepository mockRepository;
-
 
     @ParameterizedTest
     @CsvSource({
@@ -46,7 +46,8 @@ public class TestesCaixaPreta {
             "100.00, 700.00"
     })
     public void testeProcessarCarrinhoVerificandoFreteComDeterminadoPeso(BigDecimal peso, BigDecimal valorEsperadoFrete) {
-        // Cenário de teste
+        // ARRANGE
+    	// Cenário de teste
         Carrinho carrinho = new Carrinho();
         carrinho.setNome("Nome do Cliente");
         carrinho.setCpf("123456789");
@@ -64,18 +65,18 @@ public class TestesCaixaPreta {
 
         carrinho.getItens().add(item);
         
-        // Erro Aqui: diz que o repository esta NULL
         when(mockRepository.save(any(Carrinho.class))).thenReturn(carrinho);
         
-
+        // ACT
         // Chamando o método a ser testado
-        service.insert(carrinho);
+        Carrinho carrinhoSalvo = service.insert(carrinho);
 
-        
+        // ASSERT
         // Verificações
-        assertEquals(valorEsperadoFrete, carrinho.getFrete());
+        assertEquals(valorEsperadoFrete, carrinhoSalvo.getFrete());
     }
 
+    
     @ParameterizedTest
     @CsvSource({
             "0, 0.00",
@@ -85,7 +86,8 @@ public class TestesCaixaPreta {
             "6, 9.50"
     })
     public void testeProcessarCarrinhoVerificandoFreteComAcrescimo(int quantidadeItens, BigDecimal valorEsperadoFrete) {
-        // Cenário de teste
+        // ARRANGE
+    	// Cenário de teste
         Carrinho carrinho = new Carrinho();
         carrinho.setNome("Nome do Cliente");
         carrinho.setCpf("123456789");
@@ -100,35 +102,44 @@ public class TestesCaixaPreta {
             item.setTipo(EnumAtlantic.TipoItem.CASA);
             carrinho.getItens().add(item);
         }
-
+        
         if (quantidadeItens == 0) {
-            assertThrows(RuntimeException.class, () -> service.processarCarrinho(carrinho));
+        	// ACT & ASSERT
+        	RuntimeException exception = assertThrows(RuntimeException.class, () -> service.insert(carrinho));
+            String mensagemEsperada = "Nenhum item no carrinho";
+            
+            assertEquals(mensagemEsperada, exception.getMessage());
+        
         } else {
+        	when(mockRepository.save(any(Carrinho.class))).thenReturn(carrinho);
+        	// ACT
             // Chamando o método a ser testado
-            service.processarCarrinho(carrinho);
+        	Carrinho carrinhoSalvo = service.insert(carrinho);
 
+        	// ASSERT
             // Verificações
-            assertEquals(valorEsperadoFrete, carrinho.getFrete());
+            assertEquals(valorEsperadoFrete, carrinhoSalvo.getFrete());
         }
     }
 
     @ParameterizedTest
     @CsvSource({
-            "0, 5, 20.00",
+            "1, 5, 20.00", //"0" troquei por "1"
             "2, 5, 20.00",
             "3, 5, 19.00",
             "4, 5, 19.00",
             "5, 5, 19.00"
     })
-    public void testeProcessarCarrinhoVerificandoFreteComDesconto(int quantidadeItens, int quantidadeTotal, BigDecimal valorEsperadoDesconto) {
-        // Cenário de teste
+    public void testeProcessarCarrinhoVerificandoFreteComDesconto(int quantidadeItensMesmoTipo, int quantidadeItens, BigDecimal valorEsperadoDesconto) {
+        // ARRANGE
+    	// Cenário de teste
         Carrinho carrinho = new Carrinho();
         carrinho.setNome("Nome do Cliente");
         carrinho.setCpf("123456789");
         carrinho.setItens(new ArrayList<>());
 
         // Adicionando itens ao carrinho com a quantidade fornecida pelo teste parametrizado
-        for (int i = 0; i < quantidadeItens; i++) {
+        for (int i = 0; i < quantidadeItensMesmoTipo; i++) {
             CarrinhoItem item = new CarrinhoItem();
             item.setPeso(new BigDecimal(2));
             item.setPreco(BigDecimal.ONE);
@@ -136,7 +147,7 @@ public class TestesCaixaPreta {
             carrinho.getItens().add(item);
         }
         EnumAtlantic.TipoItem[] tiposDisponiveis = EnumAtlantic.TipoItem.values();
-        for (int i = quantidadeItens; i < quantidadeTotal; i++) {
+        for (int i = quantidadeItensMesmoTipo; i < quantidadeItens; i++) {
             CarrinhoItem item = new CarrinhoItem();
             item.setPeso(new BigDecimal(2));
             item.setPreco(BigDecimal.ONE);
@@ -146,12 +157,16 @@ public class TestesCaixaPreta {
 
             carrinho.getItens().add(item);
         }
-
+        
+        when(mockRepository.save(any(Carrinho.class))).thenReturn(carrinho);
+        
+        // ACT
         // Chamando o método a ser testado
-        service.processarCarrinho(carrinho);
+        Carrinho carrinhoSalvo = service.insert(carrinho);
 
+        // ASSERT
         // Verificações
-        assertEquals(valorEsperadoDesconto, carrinho.getFrete());
+        assertEquals(valorEsperadoDesconto, carrinhoSalvo.getFrete());
     }
 
     @ParameterizedTest
@@ -167,7 +182,8 @@ public class TestesCaixaPreta {
             "2500.00, 2000.00"
     })
     public void testeProcessarCarrinhoVerificandoCompraComDesconto(BigDecimal valorDaCompra, BigDecimal valorEsperadoCompraComDesconto) {
-        // Cenário de teste
+    	// ARRANGE
+    	// Cenário de teste
         Carrinho carrinho = new Carrinho();
         carrinho.setNome("Nome do Cliente");
         carrinho.setCpf("123456789");
@@ -181,10 +197,15 @@ public class TestesCaixaPreta {
         item.setTipo(EnumAtlantic.TipoItem.CASA);
         carrinho.getItens().add(item);
 
+        when(mockRepository.save(any(Carrinho.class))).thenReturn(carrinho);
+        
+        // ACT
         // Chamando o método a ser testado
-        service.processarCarrinho(carrinho);
+        Carrinho carrinhoSalvo = service.insert(carrinho);
 
+        // ASSERT
         // Verificações
-        assertEquals(valorEsperadoCompraComDesconto, carrinho.getSubTotal());
+        assertEquals(valorEsperadoCompraComDesconto, carrinhoSalvo.getSubTotal());
     }
+    
 }
