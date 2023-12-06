@@ -45,7 +45,7 @@ public class TestesCaixaPreta {
             "50.10, 350.70",
             "100.00, 700.00"
     })
-    public void templateCasosTeste01(BigDecimal peso, BigDecimal valorEsperadoFrete) {
+    public void templateCasosDeTeste01(BigDecimal peso, BigDecimal valorEsperadoFrete) {
         // ARRANGE
     	// Cenário de teste
         Carrinho carrinho = new Carrinho();
@@ -85,7 +85,7 @@ public class TestesCaixaPreta {
             "5, 0.00",
             "6, 10.00"
     })
-    public void templateCasosTeste02(int quantidadeItens, BigDecimal valorAcrescimoNoFrete) {
+    public void templateCasosDeTeste02(int quantidadeItens, BigDecimal valorAcrescimoNoFrete) {
         // ARRANGE
     	// Cenário de teste
         Carrinho carrinho = new Carrinho();
@@ -133,7 +133,7 @@ public class TestesCaixaPreta {
             "4, 5, 19.00",
             "5, 5, 19.00"
     })
-    public void templateCasosTeste03(int quantidadeItensMesmoTipo, int quantidadeItens, BigDecimal valorEsperadoDesconto) {
+    public void templateCasosDeTeste03(int quantidadeItensMesmoTipo, int quantidadeItens, BigDecimal valorEsperadoDesconto) {
         // ARRANGE
     	// Cenário de teste
         Carrinho carrinho = new Carrinho();
@@ -184,7 +184,7 @@ public class TestesCaixaPreta {
             "1000.01, 800.01",
             "2500.00, 2000.00"
     })
-    public void templateCasosTeste04(BigDecimal valorDaCompra, BigDecimal valorEsperadoCompraComDesconto) {
+    public void templateCasosDeTeste04(BigDecimal valorDaCompra, BigDecimal valorEsperadoCompraComDesconto) {
     	// ARRANGE
     	// Cenário de teste
         Carrinho carrinho = new Carrinho();
