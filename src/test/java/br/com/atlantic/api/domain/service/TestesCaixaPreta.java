@@ -45,7 +45,7 @@ public class TestesCaixaPreta {
             "50.10, 350.70",
             "100.00, 700.00"
     })
-    public void testeProcessarCarrinhoVerificandoFreteComDeterminadoPeso(BigDecimal peso, BigDecimal valorEsperadoFrete) {
+    public void templateCasosTeste01(BigDecimal peso, BigDecimal valorEsperadoFrete) {
         // ARRANGE
     	// Cenário de teste
         Carrinho carrinho = new Carrinho();
@@ -83,9 +83,9 @@ public class TestesCaixaPreta {
             "1, 0.00",
             "4, 0.00",
             "5, 0.00",
-            "6, 9.50"
+            "6, 10.00"
     })
-    public void testeProcessarCarrinhoVerificandoFreteComAcrescimo(int quantidadeItens, BigDecimal valorEsperadoFrete) {
+    public void templateCasosTeste02(int quantidadeItens, BigDecimal valorAcrescimoNoFrete) {
         // ARRANGE
     	// Cenário de teste
         Carrinho carrinho = new Carrinho();
@@ -99,7 +99,9 @@ public class TestesCaixaPreta {
             item.setPeso(BigDecimal.ZERO);
             item.setPreco(BigDecimal.ZERO);
             item.setQuantidade(BigDecimal.ONE);
-            item.setTipo(EnumAtlantic.TipoItem.CASA);
+            // Alternando os tipos dos itens
+            EnumAtlantic.TipoItem tipoItem = EnumAtlantic.TipoItem.values()[i % EnumAtlantic.TipoItem.values().length];
+            item.setTipo(tipoItem);
             carrinho.getItens().add(item);
         }
         
@@ -118,19 +120,20 @@ public class TestesCaixaPreta {
 
         	// ASSERT
             // Verificações
-            assertEquals(valorEsperadoFrete, carrinhoSalvo.getFrete());
+            assertEquals(valorAcrescimoNoFrete, carrinhoSalvo.getFrete());
         }
     }
 
     @ParameterizedTest
     @CsvSource({
-            "1, 5, 20.00", //"0" troquei por "1"
+    		"0, 5, 20.00",
+            "1, 5, 20.00",
             "2, 5, 20.00",
             "3, 5, 19.00",
             "4, 5, 19.00",
             "5, 5, 19.00"
     })
-    public void testeProcessarCarrinhoVerificandoFreteComDesconto(int quantidadeItensMesmoTipo, int quantidadeItens, BigDecimal valorEsperadoDesconto) {
+    public void templateCasosTeste03(int quantidadeItensMesmoTipo, int quantidadeItens, BigDecimal valorEsperadoDesconto) {
         // ARRANGE
     	// Cenário de teste
         Carrinho carrinho = new Carrinho();
@@ -141,20 +144,20 @@ public class TestesCaixaPreta {
         // Adicionando itens ao carrinho com a quantidade fornecida pelo teste parametrizado
         for (int i = 0; i < quantidadeItensMesmoTipo; i++) {
             CarrinhoItem item = new CarrinhoItem();
-            item.setPeso(new BigDecimal(2));
+            item.setPeso(new BigDecimal(2));// cada item possui 2kg pois 2kg * 5 = 10kg (R$20,00 de frete)
             item.setPreco(BigDecimal.ONE);
             item.setTipo(EnumAtlantic.TipoItem.CASA);
             carrinho.getItens().add(item);
         }
+        
         EnumAtlantic.TipoItem[] tiposDisponiveis = EnumAtlantic.TipoItem.values();
+        
         for (int i = quantidadeItensMesmoTipo; i < quantidadeItens; i++) {
             CarrinhoItem item = new CarrinhoItem();
-            item.setPeso(new BigDecimal(2));
+            item.setPeso(new BigDecimal(2));// cada item possui 2kg pois 2kg * 5 = 10kg (R$20,00 de frete)
             item.setPreco(BigDecimal.ONE);
-
             EnumAtlantic.TipoItem tipoItem = tiposDisponiveis[i % tiposDisponiveis.length];
             item.setTipo(tipoItem);
-
             carrinho.getItens().add(item);
         }
         
@@ -181,7 +184,7 @@ public class TestesCaixaPreta {
             "1000.01, 800.01",
             "2500.00, 2000.00"
     })
-    public void testeProcessarCarrinhoVerificandoCompraComDesconto(BigDecimal valorDaCompra, BigDecimal valorEsperadoCompraComDesconto) {
+    public void templateCasosTeste04(BigDecimal valorDaCompra, BigDecimal valorEsperadoCompraComDesconto) {
     	// ARRANGE
     	// Cenário de teste
         Carrinho carrinho = new Carrinho();

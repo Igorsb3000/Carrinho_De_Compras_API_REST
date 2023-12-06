@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(ApiVersion.V1 + "/checkout")
-public class AppCheckout {
+public class CarrinhoController {
 
     private final CarrinhoService carrinhoService;
     
