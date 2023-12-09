@@ -21,7 +21,7 @@ Antes de executar o Docker Compose (responsável por criar a tabela 'carrinho' n
 
 3. Salve o arquivo 'application.properties' após fazer a alteração. Pode utilizar o comando Ctrl + S.
 
-###OBS: Para executar os próximos passos é necessário:
+#### OBS: Para executar os próximos passos é necessário:
 
 1. Estar com uma janela aberta do git bash (windows) ou terminal (linux/mac);
 
