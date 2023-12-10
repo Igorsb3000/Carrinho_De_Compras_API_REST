@@ -4,6 +4,7 @@
 Este é o projeto final da disciplina de Gerência de Configuração e Teste de Software da Residência em TI do TRF5.
 O projeto consiste em uma API REST desenvolvida em Spring Boot com Java, utilizando um banco de dados PostgreSQL. A API inclui testes unitários com JUnit 5 e Mockito para garantir a integridade do código.
 
+
 ## Pré-requisitos para Execução do Projeto
 - Docker instalado;
 - JDK 17 ou superior instalado
@@ -11,19 +12,21 @@ O projeto consiste em uma API REST desenvolvida em Spring Boot com Java, utiliza
 - Banco de dados PostgreSQL
 - Terminal ou IDE Eclipse para execução dos próximos passos
 
+
 ## Execução do Projeto no Terminal:
 ## Configurando Variáveis de Ambiente
-Antes de executar o Docker Compose (responsável por criar a tabela 'carrinho' no banco de dados PostgreSQL), é necessário configurar as variáveis de ambiente para o banco de dados PostgreSQL. Siga os passos abaixo:
-
-1. Abra o projeto no Eclipse.
-2. No diretório src/main/resources, encontre o arquivo application.properties.
-3. Altere as variáveis DATABASE_USERNAME e DATABASE_PASSWORD para suas credenciais do PostgreSQL.
+1. No windows, pesquise por "Editar as variáveis de ambiente do sistema".
+2. Após abrir o janela de propriedades do sistema, clique no botão "Variáveis de ambiente...".
+3. Clique no botão "Novo", pode ser em variáveis do sistema ou variáveis do usuário.
+4. Então, preencha com os dados do arquivo ```.env```.
+5. Por exemplo, em nome da variável adicione ```DATABASE_HOST``` e em valor da variável adicione ```localhost```.
+6. Repita o passo 5 para todas as variáveis presentes no arquivo ```.env```.
+7. Nas variáveis DATABASE_USERNAME e DATABASE_PASSWORD, adicione como valor suas respectivas suas credenciais do PostgreSQL
 
 ## Executando o Docker
 1. Abra o terminal externo ou Git Bash.
 2. Navegue até a pasta raiz do projeto.
 3. Execute o comando ```docker-compose up -d``` para iniciar o contêiner do PostgreSQL.
-
 
 ## Execução do Projeto
 1. Abra o termina externo ou Git Bash.
@@ -31,6 +34,7 @@ Antes de executar o Docker Compose (responsável por criar a tabela 'carrinho' n
 3. Execute o comando ```mvn spring-boot:run``` para executar o projeto.
 4. A API estará disponível em http://localhost:8081.
 5. O swagger do projeto estará disponível em ```http://localhost:8081/api/swagger-ui/index.html```.
+6. *OBS: Caso a porta ```8081``` esteja em uso, altere no arquivo ```application.properties``` para outra valor, como por exemplo ````8082```.
 
 ## Execução dos Testes
 1. Abra o termina externo ou Git Bash.
@@ -49,9 +53,14 @@ Antes de executar o Docker Compose (responsável por criar a tabela 'carrinho' n
 
 ## Execução do Projeto no Eclipse:
 ### Configuração das Variáveis de Ambiente no Eclipse
-1. Abra o projeto no Eclipse.
-2. No diretório src/main/resources, encontre o arquivo application.properties.
-3. Altere as variáveis DATABASE_USERNAME e DATABASE_PASSWORD para suas credenciais do PostgreSQL.
+1. Abra o projeto no eclipse.
+2. Então clique com o botão direito do mouse em cima do diretório raíz do projeto e selecione Properties.
+3. Vá até a opção Run/Debug Settings e clique no botão New.
+4. Então selecione Java Application e pressione Ok.
+5. Na opçãp Main Class clique em search e busque a classe CarrinhoApplication (classe principal do projeto).
+6. Agora, vá até a aba Environment, copie o conteúdo do arquivo ```.env``` e coloque nessa aba.
+7. Nas variáveis DATABASE_USERNAME e DATABASE_PASSWORD, adicione como valor suas respectivas suas credenciais do PostgreSQL
+8. Clique em Apply, depois em Ok e por fim Apply and close.
 
 ### Execução do Docker no Eclipse
 1. Abra o terminal do Eclipse ou um terminal externo.
