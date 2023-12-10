@@ -43,7 +43,7 @@ Antes de executar o Docker Compose (responsável por criar a tabela 'carrinho' n
 3. Execute o comando ```mvn jacoco:report``` para gerar o relatório de cobertura.
 4. No explorador de arquivos do seus sistema, vá até o diretório ```Carrinho_De_Compras_API_REST/target/site/jacoco/```.
 5. Abra o arquivo ```index.html```.
-6. Navegue até o pacote ````br.com.atlantic.api.domain.service```;
+6. Navegue até o pacote ```br.com.atlantic.api.domain.service```;
 7. Agora, você poderá verificar a cobertura da classe CarrinhoService.
 
 
