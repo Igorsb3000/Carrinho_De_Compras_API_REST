@@ -11,7 +11,7 @@ O projeto consiste em uma API REST desenvolvida em Spring Boot com Java, utiliza
 - Banco de dados PostgreSQL
 - Terminal ou IDE Eclipse para execução dos próximos passos
 
-# Execução do Projeto no Terminal:
+## Execução do Projeto no Terminal:
 ## Configurando Variáveis de Ambiente
 Antes de executar o Docker Compose (responsável por criar a tabela 'carrinho' no banco de dados PostgreSQL), é necessário configurar as variáveis de ambiente para o banco de dados PostgreSQL. Siga os passos abaixo:
 
