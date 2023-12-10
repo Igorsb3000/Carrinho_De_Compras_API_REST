@@ -41,7 +41,13 @@ public class CarrinhoService { //extends BaseService<Carrinho, CarrinhoRepositor
         }
             
         // Retotalizar Item
-        carrinho.getItens().forEach(v -> v.setValorTotal(v.getPreco().multiply(v.getQuantidade())));
+        carrinho.getItens().forEach(v -> {
+            if (v.getQuantidade() != null) {
+                v.setValorTotal(v.getPreco().multiply(v.getQuantidade()));
+            } else {
+            	v.setValorTotal(v.getPreco());
+            }
+        });
 
         // Totalizar
         carrinho.setQtdItens(carrinho.getItens().stream().mapToInt(v -> 1).reduce(0, Integer::sum));
