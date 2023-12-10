@@ -1,11 +1,14 @@
 package br.com.atlantic.api.api.v1.dto;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 
-@Getter @Setter
+@Data
+@Getter 
+@Setter
 public class CheckoutResponseDTO {
 	
 	private BigDecimal subTotal;

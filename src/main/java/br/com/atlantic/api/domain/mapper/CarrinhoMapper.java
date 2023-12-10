@@ -11,7 +11,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class CarrinhoMapper {
     private final ModelMapper mapper;
-
+    
     /**
      * Converte um Carrinho em CheckoutResponseDTO
      * @param carrinhoCreated
@@ -21,4 +21,15 @@ public class CarrinhoMapper {
         CheckoutResponseDTO responseDTO = mapper.map(carrinhoCreated, CheckoutResponseDTO.class);
         return responseDTO;
     }
+    
+    /**
+     * Converte um CheckoutRequestDTO em Carrinho
+     * @param checkoutDTO
+     * @return carrinho
+     
+    public Carrinho toCarrinho(CheckoutRequestDTO checkoutDTO){
+    	Carrinho carrinho = mapper.map(checkoutDTO, Carrinho.class);
+        return carrinho;
+    }
+    */
 }
