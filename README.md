@@ -34,7 +34,7 @@ O projeto consiste em uma API REST desenvolvida em Spring Boot com Java, utiliza
 3. Execute o comando ```mvn spring-boot:run``` para executar o projeto.
 4. A API estará disponível em http://localhost:8081.
 5. O swagger do projeto estará disponível em ```http://localhost:8081/api/swagger-ui/index.html```.
-6. *OBS: Caso a porta ```8081``` esteja em uso, altere no arquivo ```application.properties``` para outra valor, como por exemplo ````8082```.
+6. *OBS: Caso a porta ```8081``` esteja em uso, altere no arquivo ```application.properties``` para outra valor, como por exemplo ```8082```.
 
 ## Execução dos Testes
 1. Abra o termina externo ou Git Bash.
