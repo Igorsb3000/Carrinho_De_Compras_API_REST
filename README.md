@@ -37,7 +37,7 @@ O projeto consiste em uma API REST desenvolvida em Spring Boot com Java, utiliza
 6. *OBS: Caso a porta ```8081``` esteja em uso, altere no arquivo ```application.properties``` para outra valor, como por exemplo ```8082```.
 
 ## Execução dos Testes
-1. Abra o termina externo ou Git Bash.
+1. Abra o terminal externo ou Git Bash.
 2. Navegue até a pasta raíz do projeto.
 3. Execute o comando ```mvn test``` para executar os testes unitários com JUnit 5.
 
