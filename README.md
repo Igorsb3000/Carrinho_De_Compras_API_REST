@@ -14,21 +14,27 @@ O projeto consiste em uma API REST desenvolvida em Spring Boot com Java, utiliza
 
 
 ## Execução do Projeto no Terminal:
-## Configurando Variáveis de Ambiente
+### Configurando Variáveis de Ambiente
 1. No windows, pesquise por "Editar as variáveis de ambiente do sistema".
 2. Após abrir o janela de propriedades do sistema, clique no botão "Variáveis de ambiente...".
 3. Clique no botão "Novo", pode ser em variáveis do sistema ou variáveis do usuário.
 4. Então, preencha com os dados do arquivo ```.env```.
 5. Por exemplo, em nome da variável adicione ```DATABASE_HOST``` e em valor da variável adicione ```localhost```.
 6. Repita o passo 5 para todas as variáveis presentes no arquivo ```.env```.
-7. Nas variáveis DATABASE_USERNAME e DATABASE_PASSWORD, adicione como valor suas respectivas suas credenciais do PostgreSQL
+7. Nas variáveis DATABASE_USERNAME e DATABASE_PASSWORD, adicione como valor suas respectivas credenciais do PostgreSQL.
 
-## Executando o Docker
+### Alternativa ao Passo Anterior (Configurando Variáveis de Ambiente)
+1. Copie as variáveis de ambiente do arquivo ```.env```.
+2. Cole essas variáveis no arquivo ```application.properties``` no diretório ```src/main/resources```.
+3. Nas variáveis DATABASE_USERNAME e DATABASE_PASSWORD, adicione como valor suas respectivas credenciais do PostgreSQL.
+4. Salve as alterações com o comando Crtl + S.
+
+### Executando o Docker
 1. Abra o terminal externo ou Git Bash.
 2. Navegue até a pasta raiz do projeto.
 3. Execute o comando ```docker-compose up -d``` para iniciar o contêiner do PostgreSQL.
 
-## Execução do Projeto
+### Execução do Projeto
 1. Abra o termina externo ou Git Bash.
 2. Navegue até a pasta raíz do projeto.
 3. Execute o comando ```mvn spring-boot:run``` para executar o projeto.
@@ -36,12 +42,12 @@ O projeto consiste em uma API REST desenvolvida em Spring Boot com Java, utiliza
 5. O swagger do projeto estará disponível em ```http://localhost:8081/api/swagger-ui/index.html```.
 6. *OBS: Caso a porta ```8081``` esteja em uso, altere no arquivo ```application.properties``` para outra valor, como por exemplo ```8082```.
 
-## Execução dos Testes
+### Execução dos Testes
 1. Abra o terminal externo ou Git Bash.
 2. Navegue até a pasta raíz do projeto.
 3. Execute o comando ```mvn test``` para executar os testes unitários com JUnit 5.
 
-## Verificação da Cobertura dos Testes
+### Verificação da Cobertura dos Testes
 1. Abra o termina externo ou Git Bash.
 2. Navegue até a pasta raíz do projeto.
 3. Execute o comando ```mvn jacoco:report``` para gerar o relatório de cobertura.
@@ -52,15 +58,21 @@ O projeto consiste em uma API REST desenvolvida em Spring Boot com Java, utiliza
 
 
 ## Execução do Projeto no Eclipse:
-### Configuração das Variáveis de Ambiente no Eclipse
+### Configurando as Variáveis de Ambiente no Eclipse
 1. Abra o projeto no eclipse.
 2. Então clique com o botão direito do mouse em cima do diretório raíz do projeto e selecione Properties.
 3. Vá até a opção Run/Debug Settings e clique no botão New.
 4. Então selecione Java Application e pressione Ok.
 5. Na opçãp Main Class clique em search e busque a classe CarrinhoApplication (classe principal do projeto).
 6. Agora, vá até a aba Environment, copie o conteúdo do arquivo ```.env``` e coloque nessa aba.
-7. Nas variáveis DATABASE_USERNAME e DATABASE_PASSWORD, adicione como valor suas respectivas suas credenciais do PostgreSQL
-8. Clique em Apply, depois em Ok e por fim Apply and close.
+7. Nas variáveis DATABASE_USERNAME e DATABASE_PASSWORD, adicione como valor suas respectivas credenciais do PostgreSQL
+8. Clique em Apply, depois em Ok e por fim clique em Apply and close.
+
+### Alternativa ao Passo Anterior (Configurando as Variáveis de Ambiente no Eclipse)
+1. Copie as variáveis de ambiente do arquivo ```.env```.
+2. Cole essas variáveis no arquivo ```application.properties``` no diretório ```src/main/resources```.
+3. Nas variáveis DATABASE_USERNAME e DATABASE_PASSWORD, adicione como valor suas respectivas credenciais do PostgreSQL.
+4. Salve as alterações com o comando Crtl + S.
 
 ### Execução do Docker no Eclipse
 1. Abra o terminal do Eclipse ou um terminal externo.
