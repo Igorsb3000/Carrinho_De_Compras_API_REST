@@ -132,10 +132,10 @@ Content-Type: application/json
 ## Autores
 - Igor Silva Bento
 	- Github: https://github.com/Igorsb3000 
-		- Linkedin: https://www.linkedin.com/in/igor-silva-bento-7542004a/
+	- Linkedin: https://www.linkedin.com/in/igor-silva-bento-7542004a/
 - Dawerton Eduardo Carlos Vaz
 	- Github: https://github.com/eduardocvaz
-		- Linkedin: https://www.linkedin.com/in/eduardo-c-vaz/
+	- Linkedin: https://www.linkedin.com/in/eduardo-c-vaz/
 - Ricardo Julio da Silva Carvalho
 	- Github: https://github.com/ricardoufrn
 - Alex Pereira Barros
