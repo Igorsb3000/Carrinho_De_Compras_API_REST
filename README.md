@@ -7,10 +7,10 @@ O projeto consiste em uma API REST desenvolvida em Spring Boot com Java, utiliza
 
 ## Pré-requisitos para Execução do Projeto
 - Docker instalado;
-- JDK 17 ou superior instalado
-- Maven 3.x instalado
-- Banco de dados PostgreSQL
-- Terminal ou IDE Eclipse para execução dos próximos passos
+- JDK 17 ou superior instalado;
+- Maven 3.x instalado;
+- Banco de dados PostgreSQL;
+- Terminal ou IDE Eclipse para execução dos próximos passos.
 
 
 ## Execução do Projeto no Terminal:
